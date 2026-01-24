@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rohit Prasad Yadav</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Import Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200&display=swap');
+
+        /* Loading Screen Styles */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 18px;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .loading-bar-container {
+            width: 300px;
+            height: 4px;
+            background-color: #f0f0f0;
+            border-radius: 2px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .loading-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #4CAF50;
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Preload background image */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('http://rohitbhai.xo.je/wp-content/uploads/2026/01/background-style.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        body.bg-loaded::before {
+            opacity: 1;
+        }
+
+        /* Main Content Styles - Initially Hidden */
+        .main-content {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .main-content.loaded {
+            opacity: 1;
+        }
+
+        /* General Styles */
+        body {
+            font-family: 'Noto Serif JP', serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        /* Background image will be set via JS after loading */
+        .bg-loaded {
+            background-image: url('http://rohitbhai.xo.je/wp-content/uploads/2026/01/background-style.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            color: black;
+        }
+
+        /* Fixed Navigation Styles */
+        nav {
+            width: 100%;
+            overflow-x: auto;
+            background-color: transparent;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            min-width: fit-content;
+            padding: 0 20px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            gap: 20px;
+            white-space: nowrap;
+        }
+
+        nav ul li {
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: black;
+            font-size: 18px;
+            transition: color 0.3s;
+            padding: 8px 15px;
+            display: inline-block;
+            white-space: nowrap;
+            border-radius: 5px;
+        }
+
+        nav ul li a:hover {
+            color: #555;
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .search-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .search-container input[type=text] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 250px;
+        }
+
+        .search-container button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #555;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-container button:hover {
+            background-color: #333;
+        }
+
+        /* Center text and videos */
+        section {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .service {
+            display: inline-block;
+            text-align: left;
+            margin: 20px;
+            max-width: 300px;
+            vertical-align: top;
+        }
+
+        /* Contact section styling */
+        .contact-form {
+            margin: 20px auto;
+            max-width: 400px;
+            text-align: left;
+            padding: 25px;
+            border-radius: 10px;
+            
+        }
+
+        .contact-form label,
+        .contact-form input[type="text"],
+        .contact-form input[type="email"],
+        .contact-form textarea {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .contact-form label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .contact-form input[type="text"],
+        .contact-form input[type="email"],
+        .contact-form textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Noto Serif JP', serif;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .contact-form textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .contact-form button {
+            padding: 12px 25px;
+            border: none;
+            background-color: #555;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .contact-form button:hover {
+            background-color: #333;
+        }
+
+        .contact-info {
+            margin: 30px auto;
+            max-width: 400px;
+            text-align: left;
+            padding: 25px;
+            border-radius: 10px;
+        
+        }
+
+        .contact-info h3 {
+            text-align: center;
+            margin-top: 0;
+            color: #333;
+        }
+
+        /* Portfolio styling - UPDATED */
+        .portfolio-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .project {
+            
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 350px;
+            transition: transform 0.3s ease;
+        }
+
+        .project:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .project img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+
+        .project-content {
+            padding: 20px;
+            text-align: left;
+        }
+
+        .project h3 {
+            margin-top: 0;
+            color: #333;
+            font-size: 22px;
+        }
+
+        .project p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .project .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .project .tech-tag {
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        /* Call to Action styling */
+        .call-to-action {
+            padding: 50px 20px;
+            margin: 40px 0;
+            text-align: center;
+            
+            border-radius: 10px;
+        }
+
+        .cta-content h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .cta-content p {
+            color: #666;
+            font-size: 18px;
+        }
+
+        .cta-button {
+            margin-top: 30px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 15px 35px;
+            background-color: #555;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 18px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .cta-btn:hover {
+            background-color: #333;
+            transform: translateY(-3px);
+        }
+
+        /* Social Media Links styling */
+        .social-media-links {
+            text-align: center;
+            margin: 50px 0;
+            padding: 30px 20px;
+        
+            border-radius: 10px;
+        }
+
+        .social-media-links h2 {
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .social-icons-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #555;
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Individual social media colors */
+        .social-icon.instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        .social-icon.youtube {
+            background-color: #FF0000;
+        }
+
+        .social-icon.github {
+            background-color: #333;
+        }
+
+        .social-icon.payment {
+            background-color: #28a745;
+        }
+
+        .social-icon.website {
+            background-color: #4CAF50;
+        }
+
+        .social-icon.email {
+            background-color: #D44638;
+        }
+
+        /* Footer styling */
+        footer {
+            color: black;
+            padding: 50px 20px;
+            text-align: center;
+            
+        }
+
+        .newsletter {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter h3 {
+            margin-bottom: 15px;
+            color: black;
+        }
+
+        .newsletter p {
+            margin-bottom: 25px;
+            color: black;
+            line-height: 1.6;
+        }
+
+        .newsletter form {
+            text-align: center;
+        }
+
+        .newsletter label {
+            display: block;
+            margin-bottom: 8px;
+            color: black;
+            font-weight: bold;
+        }
+
+        .newsletter input[type="email"] {
+            padding: 12px;
+            width: 70%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-family: 'Noto Serif JP', serif;
+            font-size: 16px;
+        }
+
+        .newsletter button {
+            padding: 12px 30px;
+            background-color: #555;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .newsletter button:hover {
+            background-color: #333;
+        }
+
+        /* QR Code Modal Styles */
+        .qr-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .qr-modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 300px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .qr-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .qr-close:hover {
+            color: #555;
+        }
+
+        #qrCodeImage {
+            margin: 20px auto;
+            display: block;
+            width: 200px;
+            height: 200px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .qr-title {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .qr-info {
+            color: #666;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        /* Sticky Website Button */
+        .sticky-website-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .sticky-website-btn:hover {
+            background-color: #45a049;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 768px) {
+            /* Navigation for tablets */
+            .nav-container {
+                padding: 0 10px;
+                justify-content: flex-start;
+            }
+            
+            nav ul {
+                gap: 10px;
+            }
+            
+            nav ul li a {
+                font-size: 16px;
+                padding: 6px 12px;
+            }
+            
+            .service, .project {
+                display: block;
+                margin: 25px auto;
+                max-width: 90%;
+            }
+            
+            .search-container input[type=text] {
+                width: 80%;
+                margin-bottom: 10px;
+            }
+            
+            .search-container button {
+                width: 80%;
+            }
+            
+            .social-icons-container {
+                gap: 15px;
+            }
+            
+            .social-icon {
+                width: 55px;
+                height: 55px;
+                font-size: 22px;
+            }
+            
+            .contact-form, .contact-info {
+                margin: 20px 15px;
+                padding: 20px;
+            }
+            
+            .newsletter input[type="email"] {
+                width: 80%;
+            }
+            
+            .sticky-website-btn {
+                padding: 10px 15px;
+                font-size: 14px;
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .loading-bar-container {
+                width: 250px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            /* For mobile devices */
+            header h1 {
+                font-size: 24px;
+                padding: 0 10px;
+            }
+            
+            header {
+                padding: 15px 0;
+            }
+
+            /* Navigation for mobile */
+            nav ul {
+                gap: 8px;
+            }
+            
+            nav ul li a {
+                font-size: 14px;
+                padding: 5px 10px;
+            }
+
+            .service, .project {
+                width: 100%;
+                margin: 20px 0;
+                padding: 15px;
+            }
+            
+            .contact-form, .contact-info {
+                margin: 20px 10px;
+                padding: 20px 15px;
+            }
+            
+            .search-container input[type=text] {
+                width: 90%;
+                padding: 12px;
+                font-size: 16px;
+            }
+            
+            .search-container button {
+                width: 90%;
+                padding: 12px;
+                font-size: 16px;
+            }
+            
+            .social-media-links {
+                margin: 30px 0;
+                padding: 20px 10px;
+            }
+            
+            .social-media-links h2 {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .social-icons-container {
+                gap: 12px;
+            }
+            
+            .social-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .service iframe {
+                width: 100% !important;
+                height: 200px !important;
+            }
+            
+            .newsletter input[type="email"] {
+                width: 90%;
+                padding: 12px;
+                font-size: 16px;
+            }
+            
+            .newsletter button {
+                width: 90%;
+                padding: 12px;
+            }
+            
+            .cta-btn {
+                padding: 12px 25px;
+                font-size: 16px;
+            }
+            
+            section {
+                padding: 30px 15px;
+            }
+            
+            h2 {
+                font-size: 22px;
+            }
+            
+            .qr-modal-content {
+                margin: 20% auto;
+                width: 85%;
+                padding: 20px;
+            }
+            
+            .sticky-website-btn {
+                padding: 8px 12px;
+                font-size: 13px;
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .loading-bar-container {
+                width: 200px;
+            }
+        }
+        
+        /* Extra small devices */
+        @media screen and (max-width: 360px) {
+            nav ul {
+                gap: 5px;
+            }
+            
+            nav ul li a {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+            
+            .social-icons-container {
+                gap: 10px;
+            }
+            
+            .social-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+            
+            .service iframe {
+                height: 180px !important;
+            }
+            
+            header h1 {
+                font-size: 20px;
+            }
+            
+            .search-container input[type=text],
+            .search-container button {
+                width: 95%;
+            }
+        }
+        
+        /* Landscape mode for mobile */
+        @media screen and (max-height: 500px) and (orientation: landscape) {
+            .social-icons-container {
+                gap: 15px;
+            }
+            
+            .social-icon {
+                width: 50px;
+                height: 50px;
+            }
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Section IDs for navigation */
+        section {
+            scroll-margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading, please wait...</div>
+        <div class="loading-bar-container">
+            <div class="loading-bar" id="loadingBar"></div>
+        </div>
+    </div>
+
+    <!-- Main Content (Initially Hidden) -->
+    <div class="main-content">
+        <header>
+            <h1>ROHIT PRASAD YADAV</h1>
+        </header>
+
+        <nav>
+            <div class="nav-container">
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search...">
+            <button onclick="performSearch()">Search</button>
+        </div>
+
+        <section id="home">
+            <h2>Welcome to my Website</h2>
+            <p style="font-size: 18px;">Hi, I am <strong>Rohit Prasad Yadav</strong></p>
+        </section>
+
+        <section id="about">
+            <h2>About Me</h2>
+            <p>Welcome to my corner of the internet! I'm <strong>Rohit Prasad Yadav</strong>, and I'm passionate about my life. With a deep love for AI, I'm on a journey to learn AI.</p>
+            <p>My goal is to be self-millionaire through AI. I believe that it is possible nowadays, and I'm excited to share my knowledge and experiences with you.</p>
+            <p>When I'm not working, you can find me playing GAMES🎮 and listening MUSIC 🎵. Let's embark on this exciting journey together and learn something new in the era of the 21st century.</p>
+        </section>
+
+        <section id="services">
+            <h2>Our Services</h2>
+            <div class="service">
+                <iframe width="270" height="170" src="https://www.youtube.com/embed/RO3lLV9SXzg" frameborder="0" allowfullscreen></iframe>
+                <h3>Video Editing</h3>
+                <h4> Professional Video Editing Services </h4>
+                <p>Welcome to our professional video editing services! At [Your Company Name], we understand the power of visual storytelling. Whether you're a content creator, business owner, or individual looking to transform your video footage into a compelling narrative, our team of skilled video editors is here to bring your vision to life.</p>
+            </div>
+
+            <div class="service">
+                <iframe width="270" height="170" src="https://www.youtube.com/embed/SBr-g5ZjEp8" frameborder="0" allowfullscreen></iframe>
+                <h3>Designing</h3>
+                <h4>Professional Design Services</h4>
+                <p>Welcome to [Your Company Name], where creativity meets functionality. Our professional design services are tailored to bring your visions to life, whether you're a business seeking to establish a strong brand presence, an individual looking for personalized design solutions, or anyone in between.</p>
+            </div>
+
+            <div class="service">
+                <iframe width="270" height="170" src="https://www.youtube.com/embed/FmvHiODsqZk?si=gr5RFYtve8i7rAFM" frameborder="0" allowfullscreen></iframe>
+                <h3>Content Writing</h3>
+                <h4>Professional Content Writing Services</h4>
+                <p>Welcome to [Your Company Name], where words come to life. Our professional content writing services are designed to help businesses and individuals harness the power of compelling and well-crafted content. Whether you need engaging blog posts, website content, marketing materials, or any other written material, our team of expert writers is here to bring your ideas to fruition.</p>
+            </div>
+        </section>
+
+        <section id="portfolio">
+            <h2>Portfolio</h2>
+            <p>Here are some of my recent projects showcasing my skills in web development and design.</p>
+            
+            <div class="portfolio-container">
+                <div class="project">
+                    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="E-commerce Website">
+                    <div class="project-content">
+                        <h3>E-commerce Platform</h3>
+                        <p>A fully responsive e-commerce website with product filtering, cart functionality, and secure checkout. Built with modern web technologies to provide seamless shopping experience.</p>
+                        <p><strong>Client:</strong> Fashion Store</p>
+                        <p><strong>Date:</strong> January 2023</p>
+                        <p><strong>Features:</strong> Responsive Design, Payment Integration, User Authentication</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">HTML5</span>
+                            <span class="tech-tag">CSS3</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Node.js</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="AI Assistant Dashboard">
+                    <div class="project-content">
+                        <h3>AI Assistant Dashboard</h3>
+                        <p>An interactive dashboard for AI-powered assistant with real-time analytics, user management, and data visualization. Features include natural language processing and machine learning integration.</p>
+                        <p><strong>Client:</strong> Tech Solutions Inc.</p>
+                        <p><strong>Date:</strong> February 2023</p>
+                        <p><strong>Features:</strong> Real-time Analytics, Data Visualization, User Management</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Django</span>
+                            <span class="tech-tag">Chart.js</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">WebSockets</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Financial Analytics Platform">
+                    <div class="project-content">
+                        <h3>Financial Analytics Platform</h3>
+                        <p>A comprehensive financial analytics platform with real-time market data, portfolio tracking, and predictive analytics. Designed for financial institutions and individual investors.</p>
+                        <p><strong>Client:</strong> Finance Corp</p>
+                        <p><strong>Date:</strong> March 2023</p>
+                        <p><strong>Features:</strong> Real-time Data, Portfolio Management, Predictive Analytics</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">D3.js</span>
+                            <span class="tech-tag">Express</span>
+                            <span class="tech-tag">MongoDB</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="blog">
+            <h2>Blog</h2>
+            <h1>Unlocking the Power of Content Writing: A Comprehensive Guide</h1>
+            <p>In the digital age, content is king. Whether you're a business owner, blogger, or aspiring writer, mastering the art of content writing is essential for success. In this comprehensive guide, we'll delve into the world of content writing, exploring its importance, key principles, and tips for creating engaging and effective content.</p>
+        </section>
+
+        <section id="contact">
+            <h2>Get in Touch</h2>
+            <p>Have questions or want to discuss a project? Contact us using the form below or through our other contact options.</p>
+
+            <div class="contact-form">
+                <form id="contactForm" action="submit.php" method="POST">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="4" required></textarea>
+
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                
+                <p><i class="fas fa-envelope"></i> Email: rohitprasadyadav06@gmail.com</p>
+                <p><i class="fas fa-phone"></i> Phone: 8389873317</p>
+                <p><i class="fas fa-map-marker-alt"></i> Address: MANGAN BAZAR, NORTH SIKKIM.BHARAT</p>
+                <p><i class="fas fa-map-pin"></i> PIN CODE: 737116</p>
+            </div>
+        </section>
+
+        <div class="call-to-action">
+            <section id="cta">
+                <div class="cta-content">
+                    <h2>Ready to Get Started?</h2>
+                    <p>Let's work together to bring your ideas to life. Contact us today!</p>
+                </div>
+                <div class="cta-button">
+                    <a href="#contact" class="cta-btn">Contact Us</a>
+                </div>
+            </section>
+        </div>
+
+        <!-- QR Code Modal -->
+        <div id="qrModal" class="qr-modal">
+            <div class="qr-modal-content">
+                <span class="qr-close" onclick="closeQRCode()">&times;</span>
+                <h3 class="qr-title">Scan to Pay</h3>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=8389873317@naviaxis&pn=******3317&mc=0000&mode=02&purpose=00" 
+                     alt="Payment QR Code" 
+                     id="qrCodeImage">
+                <p class="qr-info">UPI ID: *******317@naviaxis</p>
+                <p class="qr-info" style="font-size: 12px; color: #888;">Close this window to continue browsing</p>
+            </div>
+        </div>
+
+        <!-- Social Media Links with Icons -->
+        <div class="social-media-links">
+            <h2>Connect With Me</h2>
+            <div class="social-icons-container">
+                <a href="https://rohitbhai.xo.je/?i=1" target="_blank" class="social-icon website" title="Website">
+                    <i class="fas fa-globe"></i>
+                </a>
+                <!-- Payment QR -->
+                <a onclick="showQRCode()" class="social-icon payment" title="Payment QR">
+                    <i class="fas fa-qrcode"></i>
+                </a>
+                <a href="https://www.instagram.com/itz_rohiityadav/" target="_blank" class="social-icon instagram" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <!-- Email link -->
+                <a href="mailto:rohitprasadyadav06@gmail.com" class="social-icon email" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="https://youtube.com/@beyondthescreen-07?si=W-afcT5sPCg1NoZw" target="_blank" class="social-icon youtube" title="YouTube">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="https://github.com/rpy2006" target="_blank" class="social-icon github" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </div>
+
+        <footer>
+            <div class="newsletter">
+                <h3>Subscribe to Our Newsletter</h3>
+                <p>Stay updated with our latest news and offers. Subscribe now!</p>
+                <form action="subscribe.php" method="POST">
+                    <label for="newsletter-email">Email:</label>
+                    <input type="email" id="newsletter-email" name="email" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+            <p style="margin-top: 30px; color: black; font-size: 14px;">© 2026 Rohit Prasad Yadav. All rights reserved.</p>
+        </footer>
+
+        <!-- Sticky Website Button -->
+        <a href="first.ui.html" class="sticky-website-btn">
+            Visit First Website
+        </a>
+    </div>
+
+    <script>
+        // Loading System
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const loadingBar = document.getElementById('loadingBar');
+            const mainContent = document.querySelector('.main-content');
+            const body = document.body;
+            
+            let loadedAssets = 0;
+            let totalAssets = 5; // Background + 3 portfolio images + Font Awesome
+            const backgroundImageUrl = 'http://rohitbhai.xo.je/wp-content/uploads/2026/01/background-style.png';
+            
+            // Function to update loading bar
+            function updateLoadingBar(progress) {
+                loadingBar.style.width = progress + '%';
+            }
+            
+            // Function to check if all assets are loaded
+            function checkAllLoaded() {
+                loadedAssets++;
+                const progress = Math.min((loadedAssets / totalAssets) * 100, 100);
+                updateLoadingBar(progress);
+                
+                if (loadedAssets >= totalAssets) {
+                    // All assets loaded
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                            mainContent.classList.add('loaded');
+                            body.classList.add('bg-loaded');
+                            
+                            // Initialize background with preloaded image
+                            body.style.backgroundImage = `url('${backgroundImageUrl}')`;
+                            body.style.backgroundSize = 'cover';
+                            body.style.backgroundPosition = 'center';
+                            body.style.backgroundRepeat = 'no-repeat';
+                            body.style.backgroundAttachment = 'fixed';
+                        }, 500);
+                    }, 500);
+                }
+            }
+            
+            // Preload background image
+            const bgImage = new Image();
+            bgImage.onload = function() {
+                console.log('Background image loaded');
+                checkAllLoaded();
+            };
+            bgImage.onerror = function() {
+                console.log('Background image failed to load, using fallback');
+                checkAllLoaded();
+            };
+            bgImage.src = backgroundImageUrl;
+            
+            // Preload portfolio images
+            const portfolioImages = [
+                'https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'
+            ];
+            
+            portfolioImages.forEach((imgUrl, index) => {
+                const img = new Image();
+                img.onload = function() {
+                    console.log(`Portfolio image ${index + 1} loaded`);
+                    checkAllLoaded();
+                };
+                img.onerror = function() {
+                    console.log(`Portfolio image ${index + 1} failed to load`);
+                    checkAllLoaded();
+                };
+                img.src = imgUrl;
+            });
+            
+            // Check if Font Awesome is loaded
+            const checkFontAwesome = setInterval(() => {
+                if (document.fonts && document.fonts.check('16px "Font Awesome 6 Free"')) {
+                    console.log('Font Awesome loaded');
+                    clearInterval(checkFontAwesome);
+                    checkAllLoaded();
+                }
+            }, 100);
+            
+            // Fallback timeout (max 5 seconds)
+            setTimeout(() => {
+                if (loadedAssets < totalAssets) {
+                    console.log('Loading timeout - showing content anyway');
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        mainContent.classList.add('loaded');
+                        body.classList.add('bg-loaded');
+                    }, 500);
+                }
+            }, 5000);
+            
+            // Start with 10% progress
+            updateLoadingBar(10);
+        });
+
+        // Combined JavaScript from script.js and inline script
+        function performSearch() {
+            const searchInput = document.getElementById("searchInput").value;
+            if (searchInput.trim() === "") {
+                alert("Please enter something to search!");
+                return;
+            }
+            alert("Performing search for: " + searchInput);
+            // In a real application, you would redirect to search results or filter content
+        }
+
+        // Add enter key support for search
+        document.getElementById("searchInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                performSearch();
+            }
+        });
+
+        // JavaScript code for submitting the contact form
+        document.addEventListener("DOMContentLoaded", function() {
+            const contactForm = document.getElementById("contactForm");
+            if (contactForm) {
+                contactForm.addEventListener("submit", function(event) {
+                    event.preventDefault();
+                    const formData = new FormData(contactForm);
+                    const name = formData.get("name");
+                    const email = formData.get("email");
+                    const message = formData.get("message");
+                    
+                    console.log("Form submitted with data:", { name, email, message });
+                    
+                    // Show success message
+                    alert("Thank you for your message, " + name + "! We'll get back to you soon.");
+                    
+                    // Reset form
+                    contactForm.reset();
+                });
+            }
+            
+            // Add newsletter form submission
+            const newsletterForm = document.querySelector(".newsletter form");
+            if (newsletterForm) {
+                newsletterForm.addEventListener("submit", function(event) {
+                    event.preventDefault();
+                    const email = this.querySelector('input[type="email"]').value;
+                    if (email) {
+                        alert("Thank you for subscribing with: " + email);
+                        this.reset();
+                    }
+                });
+            }
+        });
+        
+        // QR Code Functions
+        function showQRCode() {
+            try {
+                const modal = document.getElementById("qrModal");
+                if (!modal) {
+                    console.error("QR modal not found");
+                    return;
+                }
+                modal.style.display = "block";
+                
+                // Preload the QR code image with timestamp to prevent caching
+                const qrImage = document.getElementById("qrCodeImage");
+                if (qrImage) {
+                    // Add timestamp to prevent caching
+                    qrImage.src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&t=" + new Date().getTime() + "&data=upi://pay?pa=8389873317@naviaxis&pn=******3317&mc=0000&mode=02&purpose=00";
+                }
+            } catch (error) {
+                console.error("Error showing QR code:", error);
+                alert("Unable to load QR code. Please try again.");
+            }
+        }
+        
+        function closeQRCode() {
+            const modal = document.getElementById("qrModal");
+            if (modal) {
+                modal.style.display = "none";
+            }
+        }
+        
+        // Close QR modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById("qrModal");
+            if (event.target == modal) {
+                closeQRCode();
+            }
+        }
+        
+        // Close QR modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeQRCode();
+            }
+        });
+    </script>
+</body>
+</html>
