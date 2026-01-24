@@ -1,0 +1,667 @@
+body {
+            font-family: 'Noto Serif JP', serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        /* Background image will be set via JS after loading */
+        .bg-loaded {
+            background-image: url('http://rohitbhai.xo.je/wp-content/uploads/2026/01/background-style.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            color: black;
+        }
+
+        /* Fixed Navigation Styles */
+        nav {
+            width: 100%;
+            overflow-x: auto;
+            background-color: transparent;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            min-width: fit-content;
+            padding: 0 20px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            gap: 20px;
+            white-space: nowrap;
+        }
+
+        nav ul li {
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: black;
+            font-size: 18px;
+            transition: color 0.3s;
+            padding: 8px 15px;
+            display: inline-block;
+            white-space: nowrap;
+            border-radius: 5px;
+        }
+
+        nav ul li a:hover {
+            color: #555;
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .search-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .search-container input[type=text] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 250px;
+        }
+
+        .search-container button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #555;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-container button:hover {
+            background-color: #333;
+        }
+
+        /* Center text and videos */
+        section {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .service {
+            display: inline-block;
+            text-align: left;
+            margin: 20px;
+            max-width: 300px;
+            vertical-align: top;
+        }
+
+        /* Contact section styling */
+        .contact-form {
+            margin: 20px auto;
+            max-width: 400px;
+            text-align: left;
+            padding: 25px;
+            border-radius: 10px;
+            
+        }
+
+        .contact-form label,
+        .contact-form input[type="text"],
+        .contact-form input[type="email"],
+        .contact-form textarea {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .contact-form label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .contact-form input[type="text"],
+        .contact-form input[type="email"],
+        .contact-form textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Noto Serif JP', serif;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .contact-form textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .contact-form button {
+            padding: 12px 25px;
+            border: none;
+            background-color: #555;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .contact-form button:hover {
+            background-color: #333;
+        }
+
+        .contact-info {
+            margin: 30px auto;
+            max-width: 400px;
+            text-align: left;
+            padding: 25px;
+            border-radius: 10px;
+        
+        }
+
+        .contact-info h3 {
+            text-align: center;
+            margin-top: 0;
+            color: #333;
+        }
+
+        /* Portfolio styling - UPDATED */
+        .portfolio-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .project {
+            
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 350px;
+            transition: transform 0.3s ease;
+        }
+
+        .project:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .project img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+
+        .project-content {
+            padding: 20px;
+            text-align: left;
+        }
+
+        .project h3 {
+            margin-top: 0;
+            color: #333;
+            font-size: 22px;
+        }
+
+        .project p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .project .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .project .tech-tag {
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        /* Call to Action styling */
+        .call-to-action {
+            padding: 50px 20px;
+            margin: 40px 0;
+            text-align: center;
+            
+            border-radius: 10px;
+        }
+
+        .cta-content h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .cta-content p {
+            color: #666;
+            font-size: 18px;
+        }
+
+        .cta-button {
+            margin-top: 30px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 15px 35px;
+            background-color: #555;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 18px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .cta-btn:hover {
+            background-color: #333;
+            transform: translateY(-3px);
+        }
+
+        /* Social Media Links styling */
+        .social-media-links {
+            text-align: center;
+            margin: 50px 0;
+            padding: 30px 20px;
+        
+            border-radius: 10px;
+        }
+
+        .social-media-links h2 {
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .social-icons-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #555;
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Individual social media colors */
+        .social-icon.instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        .social-icon.youtube {
+            background-color: #FF0000;
+        }
+
+        .social-icon.github {
+            background-color: #333;
+        }
+
+        .social-icon.payment {
+            background-color: #28a745;
+        }
+
+        .social-icon.website {
+            background-color: #4CAF50;
+        }
+
+        .social-icon.email {
+            background-color: #D44638;
+        }
+
+        /* Footer styling */
+        footer {
+            color: black;
+            padding: 50px 20px;
+            text-align: center;
+            
+        }
+
+        .newsletter {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter h3 {
+            margin-bottom: 15px;
+            color: black;
+        }
+
+        .newsletter p {
+            margin-bottom: 25px;
+            color: black;
+            line-height: 1.6;
+        }
+
+        .newsletter form {
+            text-align: center;
+        }
+
+        .newsletter label {
+            display: block;
+            margin-bottom: 8px;
+            color: black;
+            font-weight: bold;
+        }
+
+        .newsletter input[type="email"] {
+            padding: 12px;
+            width: 70%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-family: 'Noto Serif JP', serif;
+            font-size: 16px;
+        }
+
+        .newsletter button {
+            padding: 12px 30px;
+            background-color: #555;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .newsletter button:hover {
+            background-color: #333;
+        }
+
+        /* QR Code Modal Styles */
+        .qr-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .qr-modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 300px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .qr-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .qr-close:hover {
+            color: #555;
+        }
+
+        #qrCodeImage {
+            margin: 20px auto;
+            display: block;
+            width: 200px;
+            height: 200px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .qr-title {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .qr-info {
+            color: #666;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        /* Sticky Website Button */
+        .sticky-website-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .sticky-website-btn:hover {
+            background-color: #45a049;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 768px) {
+            /* Navigation for tablets */
+            .nav-container {
+                padding: 0 10px;
+                justify-content: flex-start;
+            }
+            
+            nav ul {
+                gap: 10px;
+            }
+            
+            nav ul li a {
+                font-size: 16px;
+                padding: 6px 12px;
+            }
+            
+            .service, .project {
+                display: block;
+                margin: 25px auto;
+                max-width: 90%;
+            }
+            
+            .search-container input[type=text] {
+                width: 80%;
+                margin-bottom: 10px;
+            }
+            
+            .search-container button {
+                width: 80%;
+            }
+            
+            .social-icons-container {
+                gap: 15px;
+            }
+            
+            .social-icon {
+                width: 55px;
+                height: 55px;
+                font-size: 22px;
+            }
+            
+            .contact-form, .contact-info {
+                margin: 20px 15px;
+                padding: 20px;
+            }
+            
+            .newsletter input[type="email"] {
+                width: 80%;
+            }
+            
+            .sticky-website-btn {
+                padding: 10px 15px;
+                font-size: 14px;
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .loading-bar-container {
+                width: 250px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            /* For mobile devices */
+            header h1 {
+                font-size: 24px;
+                padding: 0 10px;
+            }
+            
+            header {
+                padding: 15px 0;
+            }
+
+            /* Navigation for mobile */
+            nav ul {
+                gap: 8px;
+            }
+            
+            nav ul li a {
+                font-size: 14px;
+                padding: 5px 10px;
+            }
+
+            .service, .project {
+                width: 100%;
+                margin: 20px 0;
+                padding: 15px;
+            }
+            
+            .contact-form, .contact-info {
+                margin: 20px 10px;
+                padding: 20px 15px;
+            }
+            
+            .search-container input[type=text] {
+                width: 90%;
+                padding: 12px;
+                font-size: 16px;
+            }
+            
+            .search-container button {
+                width: 90%;
+                padding: 12px;
+                font-size: 16px;
+            }
+            
+            .social-media-links {
+                margin: 30px 0;
+                padding: 20px 10px;
+            }
+            
+            .social-media-links h2 {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .social-icons-container {
+                gap: 12px;
+            }
+            
+            .social-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .service iframe {
+                width: 100% !important;
+                height: 200px !important;
+            }
+            
+            .newsletter input[type="email"] {
+                width: 90%;
+                padding: 12px;
+                font-size: 16px;
+            }
+            
+            .newsletter button {
+                width: 90%;
+                padding: 12px;
+            }
+            
+            .cta-btn {
+                padding: 12px 25px;
+                font-size: 16px;
+            }
+            
+            section {
+                padding: 30px 15px;
+            }
+            
+            h2 {
+                font-size: 22px;
+            }
+            
+            .qr-modal-content {
+                margin: 20% auto;
+                width: 85%;
+                padding: 20px;
+            }
+            
+            .sticky-website-btn {
+                padding: 8px 12px;
+                font-size: 13px;
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .loading-bar-container {
+                width: 200px;
+            }
+        }
+        
